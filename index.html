@@ -1,35 +1,63 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Furniture Model Viewer with AR</title>
-    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f0f0f0;
+<div class="container">
+    <img src="https://cdn.create.vista.com/api/media/small/252373472/stock-photo-interior-cozy-living-room-bright-yellow-elements-decor-retro-telephone" usemap="#livingroommap" alt="Living Room" style="width:100%;">
+    <div id="highlight-couch" class="highlight" style="left: 157.06885px; top: 313.84726px; width: 350.16876px; height: 249.26602px;" onclick="handleClick(event, 'couch')"></div>
+    <div id="highlight-vase1" class="highlight" style="left: 86.70798px; top: 390.15533px; width: 31.53621px; height: 72.34974px;" onclick="showTooltip(event, 'vase1')"></div>
+    <div id="highlight-potted-plant" class="highlight" style="left: 484.83463px; top: 229.68721px; width: 129.88595px; height: 302.99657px;" onclick="showTooltip(event, 'potted-plant')"></div>
+    <div id="highlight-vase2" class="highlight" style="left: 521.46643px; top: 460.66867px; width: 46.5459px; height: 67.97897px;" onclick="showTooltip(event, 'vase2')"></div>
+</div>
+<div id="tooltip" class="tooltip"></div>
+<map name="livingroommap">
+    <area shape="rect" coords="157.06885,313.84726,507.23761,563.11328" alt="couch" onmouseover="showTooltip(event, 'couch')" onmouseout="hideTooltip()" onclick="handleClick(event, 'couch')">
+    <area shape="rect" coords="86.70798,390.15533,118.24419,462.50507" alt="vase1" onmouseover="showTooltip(event, 'vase1')" onmouseout="hideTooltip()" onclick="showTooltip(event, 'vase1')">
+    <area shape="rect" coords="484.83463,229.68721,614.72058,531.68378" alt="potted plant" onmouseover="showTooltip(event, 'potted-plant')" onmouseout="hideTooltip()" onclick="showTooltip(event, 'potted-plant')">
+    <area shape="rect" coords="521.46643,460.66867,568.01233,528.64764" alt="vase2" onmouseover="showTooltip(event, 'vase2')" onmouseout="hideTooltip()" onclick="showTooltip(event, 'vase2')">
+</map>
+
+<style>
+    .highlight {
+        position: absolute;
+        border: 2px solid rgba(255, 0, 0, 0.5);
+        display: block; /* Always display the highlight */
+        cursor: pointer; /* Indicate that the highlight is clickable */
+    }
+    .tooltip {
+        display: none;
+        position: absolute;
+        background-color: #333;
+        color: #fff;
+        padding: 5px;
+        border-radius: 5px;
+        font-size: 12px;
+    }
+    .container {
+        position: relative;
+        max-width: 100%;
+    }
+</style>
+
+<script>
+    function showTooltip(event, highlightId) {
+        var tooltip = document.getElementById('tooltip');
+        tooltip.style.display = 'block';
+        tooltip.style.left = event.pageX + 'px';
+        tooltip.style.top = event.pageY + 'px';
+        tooltip.innerHTML = highlightId;
+
+        // Keep the highlight visible
+        var highlight = document.getElementById('highlight-' + highlightId);
+        highlight.style.display = 'block';
+    }
+
+    function hideTooltip() {
+        var tooltip = document.getElementById('tooltip');
+        tooltip.style.display = 'none';
+    }
+
+    function handleClick(event, highlightId) {
+        if (highlightId === 'couch') {
+            window.location.href = 'https://erezbouskila.github.io/';
+        } else {
+            showTooltip(event, highlightId);
         }
-        model-viewer {
-            width: 100%;
-            max-width: 600px;
-            height: 80vh;
-        }
-    </style>
-</head>
-<body>
-    <model-viewer
-        src="https://cdn.jsdelivr.net/gh/KhronosGroup/glTF-Sample-Models/2.0/SheenChair/glTF-Binary/SheenChair.glb"
-        alt="A 3D model of a Sheen Chair"
-        ar
-        ar-modes="scene-viewer webxr quick-look"
-        environment-image="neutral"
-        auto-rotate
-        camera-controls>
-    </model-viewer>
-</body>
-</html>
+    }
+</script>
